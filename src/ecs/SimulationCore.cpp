@@ -1,5 +1,6 @@
-// Copyright © 2026 Fenris Creations
-// Phase 0 - ECS Foundation
+// Copyright © 2026 Stephan White
+// Author: Stephan White <stephan.f.white@gmail.com>
+// Phase 0 - ECS Foundation (modified)
 
 #include "SimulationCore.h"
 #include "World.h"
@@ -44,9 +45,6 @@ void SimulationCore::AddMode(uint64_t entity, const ModeComponent& mode) {
 
 void SimulationCore::Evolve(double dt) {
     if (!mInitialized) return;
-
-    // Very basic evolve for Phase 0 - just demonstrates the loop
-    // TODO(Phase 1): Replace with proper System iteration
 }
 
 } // namespace ecs

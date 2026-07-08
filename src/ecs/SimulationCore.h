@@ -1,5 +1,6 @@
-// Copyright © 2026 Fenris Creations
-// Phase 0 - ECS Foundation
+// Copyright © 2026 Stephan White
+// Author: Stephan White <stephan.f.white@gmail.com>
+// Phase 0 - ECS Foundation (modified)
 
 #pragma once
 
@@ -14,8 +15,8 @@ struct PhysicsPropertiesComponent;
 struct ModeComponent;
 
 /**
- * SimulationCore - High-level coordinator.
- * Owns the ECS World and will manage Systems.
+ * @brief High-level coordinator for the ECS simulation.
+ * Owns the World and will eventually manage Systems.
  */
 class SimulationCore {
 public:

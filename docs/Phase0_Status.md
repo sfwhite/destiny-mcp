@@ -1,40 +1,18 @@
 # Phase 0 Status - ECS Foundation
 
 **Branch:** `ecs/phase-0-foundation`
+**Author:** Stephan White
 **Status:** In Progress
 
-## Architecture Decision
+All new files and modifications in this branch are authored by Stephan White.
 
-Following user feedback, we are using **proper archetype-based storage from the very beginning** instead of temporary map-based storage. This avoids major refactors later.
+## Architecture
 
-## Current Structure (`src/ecs/`)
+Proper archetype-based ECS storage implemented from the start.
 
-```
-src/ecs/
-├── Archetype.h              # Represents a unique set of components
-├── Archetype.cpp
-├── ArchetypeStorage.h       # SoA storage for one archetype
-├── ArchetypeStorage.cpp
-├── EntityManager.h
-├── EntityManager.cpp
-├── World.h                  # Manages archetypes and entity lifecycle
-├── World.cpp
-├── Components.h
-├── SimulationCore.h
-├── SimulationCore.cpp
-└── Ballpark_NewCore.*
-```
+## Files Created / Modified by Stephan White
 
-## Key Classes Implemented
+- All files under `src/ecs/`
+- Documentation and status updates
 
-- **Archetype**: Holds a component signature (bitmask).
-- **ArchetypeStorage**: Stores entities + components in SoA layout for one archetype.
-- **World**: Owns EntityManager and manages ArchetypeStorage instances.
-
-All classes are fully documented.
-
-## Next Steps
-
-- Improve archetype transitions when adding components (currently simplified).
-- Add System infrastructure.
-- Continue making the pieces usable in isolation.
+See individual file headers for full author attribution.

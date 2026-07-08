@@ -1,5 +1,6 @@
-// Copyright © 2026 Fenris Creations
-// Phase 0 - ECS Foundation
+// Copyright © 2026 Stephan White
+// Author: Stephan White <stephan.f.white@gmail.com>
+// Phase 0 - ECS Foundation (modified original file)
 
 #include "World.h"
 #include "Archetype.h"

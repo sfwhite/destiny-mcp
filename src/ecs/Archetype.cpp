@@ -1,4 +1,5 @@
-// Copyright © 2026 Fenris Creations
+// Copyright © 2026 Stephan White
+// Author: Stephan White <stephan.f.white@gmail.com>
 // Phase 0 - ECS Foundation
 
 #include "Archetype.h"
