@@ -1,5 +1,5 @@
-// Copyright © 2026 Stephan White
-// Author: Stephan White <stephan.f.white@gmail.com>
+// Copyright © 2026 sfwhite
+// https://github.com/sfwhite
 // Phase 0 - ECS Foundation (modified)
 
 #pragma once
@@ -14,20 +14,16 @@ struct TransformComponent;
 struct PhysicsPropertiesComponent;
 struct ModeComponent;
 
-/**
- * @brief High-level coordinator for the ECS simulation.
- * Owns the World and will eventually manage Systems.
- */
 class SimulationCore {
 public:
     SimulationCore();
     ~SimulationCore();
 
     void Initialize();
-    bool IsInitialized() const { return mInitialized; }
+    bool IsInitialized() const;
 
-    World& GetWorld() { return *mWorld; }
-    const World& GetWorld() const { return *mWorld; }
+    World& GetWorld();
+    const World& GetWorld() const;
 
     uint64_t CreateEntity();
     void DestroyEntity(uint64_t entity);

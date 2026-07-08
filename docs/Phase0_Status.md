@@ -1,18 +1,17 @@
 # Phase 0 Status - ECS Foundation
 
 **Branch:** `ecs/phase-0-foundation`
-**Author:** Stephan White
-**Status:** In Progress
+**Author:** sfwhite (https://github.com/sfwhite)
 
-All new files and modifications in this branch are authored by Stephan White.
+All new ECS code and modifications on this branch are by sfwhite.
 
-## Architecture
+## Files
 
-Proper archetype-based ECS storage implemented from the start.
+All files under `src/ecs/` use the following header:
 
-## Files Created / Modified by Stephan White
+```cpp
+// Copyright © 2026 sfwhite
+// https://github.com/sfwhite
+```
 
-- All files under `src/ecs/`
-- Documentation and status updates
-
-See individual file headers for full author attribution.
+See individual files for full documentation.

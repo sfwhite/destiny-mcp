@@ -1,5 +1,5 @@
-// Copyright © 2026 Stephan White
-// Author: Stephan White <stephan.f.white@gmail.com>
+// Copyright © 2026 sfwhite
+// https://github.com/sfwhite
 // Phase 0 - ECS Foundation (modified)
 
 #include "SimulationCore.h"
@@ -16,35 +16,22 @@ SimulationCore::~SimulationCore() = default;
 
 void SimulationCore::Initialize() {
     if (mInitialized) return;
-
     mWorld->Initialize();
-    std::cout << "[SimulationCore] Initialized ECS World and EntityManager.\n";
-
     mInitialized = true;
 }
 
-uint64_t SimulationCore::CreateEntity() {
-    return mWorld->CreateEntity();
-}
+bool SimulationCore::IsInitialized() const { return mInitialized; }
 
-void SimulationCore::DestroyEntity(uint64_t entity) {
-    mWorld->GetEntityManager().DestroyEntity(entity);
-}
+World& SimulationCore::GetWorld() { return *mWorld; }
+const World& SimulationCore::GetWorld() const { return *mWorld; }
 
-void SimulationCore::AddTransform(uint64_t entity, const TransformComponent& transform) {
-    mWorld->AddTransform(entity, transform);
-}
+uint64_t SimulationCore::CreateEntity() { return mWorld->CreateEntity(); }
+void SimulationCore::DestroyEntity(uint64_t entity) { mWorld->GetEntityManager().DestroyEntity(entity); }
 
-void SimulationCore::AddPhysicsProperties(uint64_t entity, const PhysicsPropertiesComponent& props) {
-    mWorld->AddPhysicsProperties(entity, props);
-}
+void SimulationCore::AddTransform(uint64_t entity, const TransformComponent& transform) { mWorld->AddTransform(entity, transform); }
+void SimulationCore::AddPhysicsProperties(uint64_t entity, const PhysicsPropertiesComponent& props) { mWorld->AddPhysicsProperties(entity, props); }
+void SimulationCore::AddMode(uint64_t entity, const ModeComponent& mode) { mWorld->AddMode(entity, mode); }
 
-void SimulationCore::AddMode(uint64_t entity, const ModeComponent& mode) {
-    mWorld->AddMode(entity, mode);
-}
-
-void SimulationCore::Evolve(double dt) {
-    if (!mInitialized) return;
-}
+void SimulationCore::Evolve(double dt) {}
 
 } // namespace ecs

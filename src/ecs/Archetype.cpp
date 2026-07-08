@@ -1,5 +1,5 @@
-// Copyright © 2026 Stephan White
-// Author: Stephan White <stephan.f.white@gmail.com>
+// Copyright © 2026 sfwhite
+// https://github.com/sfwhite
 // Phase 0 - ECS Foundation
 
 #include "Archetype.h"

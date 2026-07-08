@@ -1,4 +1,5 @@
-// Copyright © 2026 Fenris Creations
+// Copyright © 2026 sfwhite
+// https://github.com/sfwhite
 // Phase 0 - ECS Foundation
 
 #pragma once
@@ -9,8 +10,7 @@
 namespace ecs {
 
 /**
- * EntityManager - Responsible for creating and destroying entity IDs.
- * Uses a simple generation counter for basic safety.
+ * @brief Manages creation and destruction of entity IDs.
  */
 class EntityManager {
 public:
@@ -19,12 +19,11 @@ public:
 
     uint64_t CreateEntity();
     void DestroyEntity(uint64_t entity);
-
     bool IsAlive(uint64_t entity) const;
 
 private:
     uint64_t mNextEntityId = 1;
-    std::vector<uint32_t> mGenerations; // generation per entity slot
+    std::vector<uint32_t> mGenerations;
 };
 
 } // namespace ecs
