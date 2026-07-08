@@ -3,20 +3,21 @@
 **Branch:** `ecs/phase-0-foundation`
 **Status:** In Progress
 
-## Completed in Phase 0
+## Completed
 
-- [x] Created feature flag `DESTINY_USE_NEW_CORE` in `src/DestinyConfig.h`
-- [x] Created initial component structs in `src/ecs/Components.h`
-- [x] Created `SimulationCore` stub (`SimulationCore.h` + `.cpp`)
-- [x] Established `src/ecs/` directory structure
+- [x] Feature flag `DESTINY_USE_NEW_CORE`
+- [x] Initial component structs
+- [x] `SimulationCore` stub + `Initialize()` method
+- [x] `Ballpark_NewCore` helper (dual-path skeleton)
+- [x] Updated plan document with stable `Ball` adapter strategy
 
-## Next in Phase 0
+## Current Focus
 
-- Extend benchmarking harness in `tools/benchmark/`
-- Prepare dual-implementation path in `Ballpark`
-- Add basic entity/component storage prototype
-- Set up side-by-side determinism comparison harness
+- Integrating dual-path logic into main `Ballpark`
+- Entity manager + System initialization when new core is enabled
+- Preparing for `Ball` adapter pattern
 
-## Notes
-
-All changes are behind the feature flag and do not affect the legacy path or any external interfaces.
+## Next Steps
+- Add conditional ownership of `SimulationCore` inside main `Ballpark` class
+- Wire `InitializeNewCore()` call based on feature flag
+- Begin basic entity creation routing

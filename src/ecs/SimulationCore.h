@@ -4,39 +4,43 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 
 namespace ecs {
 
-// Forward declarations
 struct TransformComponent;
 struct PhysicsPropertiesComponent;
 struct ModeComponent;
 
 /**
  * SimulationCore - High-performance internal simulation core.
- * This will eventually replace the heavy Ball + Partition logic inside Ballpark.
- * Phase 0: Minimal stub for foundation and benchmarking.
+ * Owns the entity registry and will eventually own all Systems.
  */
 class SimulationCore {
 public:
     SimulationCore();
     ~SimulationCore();
 
-    // Entity management (IDs only in Phase 0)
+    // Initialize the core (entity storage, default systems, etc.)
+    void Initialize();
+
+    bool IsInitialized() const { return mInitialized; }
+
+    // Entity management
     uint64_t CreateEntity();
     void DestroyEntity(uint64_t entity);
 
-    // Basic component attachment (Phase 0 stubs)
+    // Component attachment (Phase 0/1)
     void AddTransform(uint64_t entity, const TransformComponent& transform);
     void AddPhysicsProperties(uint64_t entity, const PhysicsPropertiesComponent& props);
     void AddMode(uint64_t entity, const ModeComponent& mode);
 
-    // Minimal evolve step (will grow significantly)
+    // Main simulation step
     void Evolve(double dt);
 
 private:
-    // Internal registry / storage will be implemented in later phases
-    // For now this is a stub to allow compilation and benchmarking setup
+    bool mInitialized = false;
+    // Future: entity registry, system list, spatial index, etc.
 };
 
 } // namespace ecs
