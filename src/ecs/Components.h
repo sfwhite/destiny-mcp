@@ -7,7 +7,6 @@
 #include "Vector3d.h"
 #include "Quaternion.h"
 #include <cstdint>
-#include <vector>
 
 namespace ecs {
 
@@ -60,6 +59,40 @@ struct KinematicComponent {
 struct CollidableComponent {
     float radius = 0.0f;
     // Future: collision layer/mask, shape type, etc.
+};
+
+// ============================================================================
+// Collision Shape Primitives (Mini* shapes)
+// ============================================================================
+
+/**
+ * @brief Spherical collision primitive (MiniBall).
+ * Simple sphere with local offset and radius.
+ */
+struct SphereComponent {
+    Vector3d localPosition;
+    float radius = 0.0f;
+};
+
+/**
+ * @brief Box-shaped collision primitive (MiniBox).
+ * Defined by local position, half-extents, and optional orientation.
+ */
+struct BoxComponent {
+    Vector3d localPosition;
+    Vector3d halfExtents;
+    Quaternion orientation;
+};
+
+/**
+ * @brief Capsule-shaped collision primitive (MiniCapsule).
+ * Defined by local position, axis direction, radius, and half-length.
+ */
+struct CapsuleComponent {
+    Vector3d localPosition;
+    Vector3d axis;           // Should be normalized
+    float radius = 0.0f;
+    float halfLength = 0.0f;
 };
 
 // ============================================================================
@@ -179,20 +212,6 @@ struct HarmonicsComponent {
 struct SpatialPartitionComponent {
     uint32_t activeBoxCount = 0;
     // Can be expanded when a data-oriented Partition system is implemented.
-};
-
-// ============================================================================
-// Compound / Mini Shapes (optional, for complex objects)
-// ============================================================================
-
-/**
- * @brief Lightweight compound collision primitives (MiniBall, MiniBox, MiniCapsule).
- * Most drones do not use these; they are mainly for larger ships/structures.
- */
-struct CompoundShapeComponent {
-    uint32_t miniBallCount = 0;
-    uint32_t miniBoxCount = 0;
-    uint32_t miniCapsuleCount = 0;
 };
 
 } // namespace ecs

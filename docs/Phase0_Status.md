@@ -2,11 +2,14 @@
 
 **Branch:** `ecs/phase-0-foundation`
 
-## Current State
+## Update: Collision Shape Primitives Added
 
-- All components are consolidated in a single file: `src/ecs/Components.h`
-- Deprecated `BallComponents.h` has been removed
-- `World` and `SimulationCore` have been updated to use the new component names (`KinematicComponent`, `CollidableComponent`, `BallModeComponent`)
-- `ArchetypeStorage` is fully generic (variadic template)
+Added dedicated components for Mini* collision shapes:
 
-The ECS foundation is now in a clean, consistent state with one source of truth for components.
+- `SphereComponent` (MiniBall)
+- `BoxComponent` (MiniBox)
+- `CapsuleComponent` (MiniCapsule)
+
+These allow entities to have complex or compound collision geometry in addition to the base `CollidableComponent`.
+
+All components remain in the single `Components.h` file as requested.
