@@ -6,7 +6,6 @@
 
 namespace ecs {
 
-// Note: Full generic implementation of getComponentArray<T>() requires more template metaprogramming.
-// For Phase 0 we will keep the storage definition here and expand accessors as needed.
+// Placeholder for future generic getComponentArray<T>() implementation using template metaprogramming.
 
 } // namespace ecs

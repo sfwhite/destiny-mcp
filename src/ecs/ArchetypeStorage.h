@@ -7,44 +7,57 @@
 #include <vector>
 #include <tuple>
 #include <cstdint>
+#include <type_traits>
 
 namespace ecs {
 
 using Entity = uint64_t;
 
 /**
- * @brief Stores entities and their components for one specific archetype using Structure-of-Arrays.
+ * @brief A generic storage container for one archetype using Structure-of-Arrays layout.
  *
- * This version is fully generic via variadic templates. Each instantiation of
- * ArchetypeStorage<Components...> corresponds to one unique combination of components.
+ * This class is fully generic via variadic templates. It can hold any combination
+ * of component types without hardcoding specific components.
  *
- * Example:
- *   ArchetypeStorage<TransformComponent, VelocityComponent>
+ * Each instantiation of ArchetypeStorage<Components...> represents entities that
+ * have exactly the components listed in the template parameter pack.
+ *
+ * Data is stored in contiguous arrays (SoA) for cache-friendly iteration.
  */
 template <typename... Components>
 class ArchetypeStorage {
 public:
     /**
-     * @brief Adds a new entity along with its component data to this storage.
+     * @brief Default constructor.
      */
-    void addEntity(Entity entity, Components... components) {
+    ArchetypeStorage() = default;
+
+    /**
+     * @brief Adds a new entity along with its component data.
+     *
+     * @param entity   The entity ID to add.
+     * @param comps    The component values for this entity (in the same order as the template parameters).
+     */
+    void addEntity(Entity entity, Components... comps) {
         entities.push_back(entity);
-        addComponentsToTuple(std::index_sequence_for<Components...>{}, std::forward<Components>(components)...);
+        addToArrays(std::index_sequence_for<Components...>{}, std::forward<Components>(comps)...);
     }
 
     /**
-     * @brief Returns the number of entities in this archetype storage.
+     * @brief Returns the number of entities currently stored.
      */
-    size_t size() const { return entities.size(); }
+    size_t size() const noexcept { return entities.size(); }
 
     /**
-     * @brief Returns the list of entity IDs in this storage.
+     * @brief Returns a const reference to the entity ID array.
      */
-    const std::vector<Entity>& getEntities() const { return entities; }
+    const std::vector<Entity>& getEntities() const noexcept { return entities; }
 
     /**
-     * @brief Returns a reference to the component array for a specific component type.
-     * @tparam T The component type to retrieve.
+     * @brief Returns a reference to the component array for a specific type.
+     *
+     * @tparam T The component type to retrieve the array for.
+     * @return Reference to the internal vector storing components of type T.
      */
     template <typename T>
     std::vector<T>& getComponentArray();
@@ -53,16 +66,22 @@ public:
     const std::vector<T>& getComponentArray() const;
 
 private:
+    /// Entity IDs in this archetype
     std::vector<Entity> entities;
+
+    /// Component data stored as a tuple of vectors (Structure of Arrays)
     std::tuple<std::vector<Components>...> componentArrays;
 
+    /**
+     * @brief Helper to push components into the correct vectors using index sequence.
+     */
     template <std::size_t... Is>
-    void addComponentsToTuple(std::index_sequence<Is...>, Components&&... comps) {
+    void addToArrays(std::index_sequence<Is...>, Components&&... comps) {
         (std::get<Is>(componentArrays).push_back(std::forward<Components>(comps)), ...);
     }
 };
 
-// Partial specialization for getComponentArray
-// (Implementation would go in .cpp or be defined here with more metaprogramming)
+// Note: Full implementation of getComponentArray<T>() requires additional metaprogramming.
+// It will be completed in a follow-up step.
 
 } // namespace ecs

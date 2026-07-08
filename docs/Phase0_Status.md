@@ -2,14 +2,23 @@
 
 **Branch:** `ecs/phase-0-foundation`
 
-## Major Update
+## Update: ArchetypeStorage Redesign
 
-Following feedback, `ArchetypeStorage` is being redesigned as a **variadic template** to support generics from the beginning, rather than hardcoding specific components.
+`ArchetypeStorage` has been redesigned to be **fully generic** from the beginning using variadic templates.
 
-This aligns with the goal of avoiding major refactors later.
+- No longer hardcodes specific component types.
+- Uses `std::tuple<std::vector<Components>...>` for true Structure-of-Arrays storage.
+- Designed so that any combination of components can be supported without core changes later.
 
-Current approach:
-- `ArchetypeStorage<Components...>` uses `std::tuple<std::vector<Components>...>` for SoA storage.
-- `World` will manage different template instantiations of `ArchetypeStorage`.
+This removes the need for future major refactors of the storage layer.
 
-Note: Full generic component access (`getComponent<T>()`) will require additional metaprogramming, which will be added incrementally.
+## Current State
+
+- `ArchetypeStorage<Components...>` is now properly generic.
+- `getComponentArray<T>()` implementation is pending (requires more template metaprogramming).
+- `World` still uses a simplified approach for archetype management (to be improved).
+
+Next focus areas:
+- Complete generic component access.
+- Improve entity movement between archetypes.
+- Introduce a Component Registry for runtime type information.
