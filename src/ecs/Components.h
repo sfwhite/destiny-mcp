@@ -31,11 +31,11 @@ struct TransformComponent {
 // ============================================================================
 
 struct KinematicComponent {
-    double mass = 0.0;               // From Ball physics parameters
-    float agility = 0.0f;            // From Ball physics parameters
-    float maxVelocity = 0.0f;        // From Ball physics parameters
-    float maxAngularVelocity = 0.0f; // From Ball physics parameters
-    float rollAgility = 0.0f;        // From Ball physics parameters
+    double mass = 0.0;               // From Ball::mass
+    float agility = 0.0f;            // From Ball::agility
+    float maxVelocity = 0.0f;        // From Ball::maxVelocity
+    float maxAngularVelocity = 0.0f; // From Ball::maxAngularVelocity
+    float rollAgility = 0.0f;        // From Ball::rollAgility
 };
 
 // ============================================================================
@@ -43,7 +43,7 @@ struct KinematicComponent {
 // ============================================================================
 
 struct CollidableComponent {
-    float radius = 0.0f;             // From Ball radius + Mini* shapes
+    float radius = 0.0f;             // From Ball::radius
 };
 
 // ============================================================================
@@ -51,21 +51,21 @@ struct CollidableComponent {
 // ============================================================================
 
 struct SphereComponent {
-    Vector3d localPosition;          // From MiniBall local position
-    float radius = 0.0f;             // From MiniBall radius
+    Vector3d localPosition;          // From MiniBall::localPosition
+    float radius = 0.0f;             // From MiniBall::radius
 };
 
 struct BoxComponent {
-    Vector3d localPosition;          // From MiniBox local position
-    Vector3d halfExtents;            // From MiniBox halfExtents
-    Quaternion orientation;          // From MiniBox orientation
+    Vector3d localPosition;          // From MiniBox::localPosition
+    Vector3d halfExtents;            // From MiniBox::halfExtents
+    Quaternion orientation;          // From MiniBox::orientation
 };
 
 struct CapsuleComponent {
-    Vector3d localPosition;          // From MiniCapsule local position
-    Vector3d axis;                   // From MiniCapsule axis
-    float radius = 0.0f;             // From MiniCapsule radius
-    float halfLength = 0.0f;         // From MiniCapsule halfLength
+    Vector3d localPosition;          // From MiniCapsule::localPosition
+    Vector3d axis;                   // From MiniCapsule::axis
+    float radius = 0.0f;             // From MiniCapsule::radius
+    float halfLength = 0.0f;         // From MiniCapsule::halfLength
 };
 
 // ============================================================================
@@ -94,10 +94,10 @@ enum class BallMode : uint8_t {
 struct BallModeComponent {
     BallMode mode = BallMode::Stop;  // From Ball::mMode
 
-    Vector3d targetPosition;         // From mode target position data
-    uint64_t targetEntity = 0;       // From mode target entity data
-    float orbitRadius = 0.0f;        // From Orbit mode data
-    float orbitSpeed = 0.0f;         // From Orbit mode data
+    Vector3d targetPosition;         // From Ball mode target position
+    uint64_t targetEntity = 0;       // From Ball mode target entity
+    float orbitRadius = 0.0f;        // From Ball orbit radius
+    float orbitSpeed = 0.0f;         // From Ball orbit speed
 };
 
 // ============================================================================
@@ -117,9 +117,9 @@ struct ProximityComponent {
 // ============================================================================
 
 struct OwnershipComponent {
-    uint64_t ownerId = 0;            // From Ball ownership data
-    uint32_t allianceId = 0;         // From Ball alliance data
-    uint32_t corporationId = 0;      // From Ball corporation data
+    uint64_t ownerId = 0;            // From Ball::ownerId
+    uint32_t allianceId = 0;         // From Ball::allianceId
+    uint32_t corporationId = 0;      // From Ball::corporationId
 };
 
 // ============================================================================
@@ -127,9 +127,9 @@ struct OwnershipComponent {
 // ============================================================================
 
 struct FormationComponent {
-    uint64_t formationLeader = 0;    // From Ball formation leader
-    uint32_t formationSlot = 0;      // From Ball formation slot
-    bool inFormation = false;        // From Ball formation state
+    uint64_t formationLeader = 0;    // From Ball::formationLeader
+    uint32_t formationSlot = 0;      // From Ball::formationSlot
+    bool inFormation = false;        // From Ball::inFormation
 };
 
 // ============================================================================
@@ -137,9 +137,9 @@ struct FormationComponent {
 // ============================================================================
 
 struct CloakComponent {
-    bool isCloaked = false;          // From Ball cloaking state
-    float cloakStrength = 0.0f;      // From Ball cloak strength
-    double cloakTimer = 0.0;         // From Ball cloak timer
+    bool isCloaked = false;          // From Ball::isCloaked
+    float cloakStrength = 0.0f;      // From Ball::cloakStrength
+    double cloakTimer = 0.0;         // From Ball::cloakTimer
 };
 
 // ============================================================================
@@ -147,8 +147,8 @@ struct CloakComponent {
 // ============================================================================
 
 struct HarmonicsComponent {
-    uint32_t harmonicState = 0;      // From Ball harmonics state
-    double harmonicTimer = 0.0;      // From Ball harmonics timer
+    uint32_t harmonicState = 0;      // From Ball::harmonicState
+    double harmonicTimer = 0.0;      // From Ball::harmonicTimer
 };
 
 // ============================================================================
@@ -156,7 +156,7 @@ struct HarmonicsComponent {
 // ============================================================================
 
 struct SpatialPartitionComponent {
-    uint32_t activeBoxCount = 0;     // From Ball partition data
+    uint32_t activeBoxCount = 0;     // From Ball::activeBoxCount
 };
 
 // ============================================================================
@@ -164,11 +164,11 @@ struct SpatialPartitionComponent {
 // ============================================================================
 
 struct BubbleComponent {
-    Vector3d center;                 // From Bubble center
-    float radius = 0.0f;             // From Bubble radius
-    uint32_t gridLevel = 0;          // From Bubble grid level
-    uint32_t bubbleId = 0;           // From Bubble ID
-    bool active = true;              // From Bubble active state
+    Vector3d center;                 // From Bubble::center
+    float radius = 0.0f;             // From Bubble::radius
+    uint32_t gridLevel = 0;          // From Bubble::gridLevel
+    uint32_t bubbleId = 0;           // From Bubble::bubbleId
+    bool active = true;              // From Bubble::active
 };
 
 // ============================================================================
@@ -176,9 +176,9 @@ struct BubbleComponent {
 // ============================================================================
 
 struct WreckComponent {
-    uint32_t wreckType = 0;          // From Wreck type
-    double decayTimer = 0.0;         // From Wreck decay timer
-    bool hasLoot = false;            // From Wreck loot flag
+    uint32_t wreckType = 0;          // From Wreck::wreckType
+    double decayTimer = 0.0;         // From Wreck::decayTimer
+    bool hasLoot = false;            // From Wreck::hasLoot
 };
 
 } // namespace ecs
