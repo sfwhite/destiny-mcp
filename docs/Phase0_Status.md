@@ -2,13 +2,15 @@
 
 **Branch:** `ecs/phase-0-foundation`
 
-## Update: Bubble and Wreck Components Added
+## Comprehensive Blanket Sweep Completed
 
-Added two more key components:
+Performed a full pass over Ballpark children and added all major relevant components:
 
-- `BubbleComponent` — Spatial interest management and grid partitioning regions.
-- `WreckComponent` — For dead/static objects (wrecks/debris) that remain collidable.
+- Collision primitives (Sphere, Box, Capsule)
+- Bubble
+- Wreck
+- Effect, Signature, Damage, Shield, Armor, Container, Interpolation, Sensor, State
 
-This continues the systematic decomposition of Ballpark children into clean ECS components.
+Every component now includes sourcing comments indicating its origin in the original Destiny code (primarily from `Ball.h`, spatial partitioning, and related structures).
 
-All components remain consolidated in `src/ecs/Components.h`.
+All components are consolidated in `src/ecs/Components.h`.

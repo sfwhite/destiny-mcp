@@ -11,13 +11,9 @@
 namespace ecs {
 
 // ============================================================================
-// Transform / Motion State
+// CORE TRANSFORM / MOTION (derived from Ball::mNewPos, mNewVel, mNewRot, etc. in Ball.h)
 // ============================================================================
 
-/**
- * @brief Core 6DOF spatial and motion state.
- * Contains current and previous frame values for integration and interpolation.
- */
 struct TransformComponent {
     Vector3d position;
     Vector3d velocity;
@@ -31,14 +27,9 @@ struct TransformComponent {
 };
 
 // ============================================================================
-// Kinematic (Movement Physics)
+// KINEMATIC (Movement Physics) - derived from Ball physics parameters (mass, agility, maxVelocity, etc.)
 // ============================================================================
 
-/**
- * @brief Physics parameters for entities that participate in movement simulation.
- * Presence of this component implies the entity is kinematic (can move via physics).
- * Mass and agility-related attributes live here.
- */
 struct KinematicComponent {
     double mass = 0.0;
     float agility = 0.0f;
@@ -48,78 +39,51 @@ struct KinematicComponent {
 };
 
 // ============================================================================
-// Collidable (Collision Participation)
+// COLLIDABLE - derived from Ball collision participation (radius + Mini* shapes)
 // ============================================================================
 
-/**
- * @brief Collision-relevant data.
- * Presence of this component means the entity participates in collision detection.
- * Bounding volume data lives here.
- */
 struct CollidableComponent {
     float radius = 0.0f;
-    // Future: collision layer/mask, shape type, etc.
 };
 
 // ============================================================================
-// Collision Shape Primitives (Mini* shapes)
+// COLLISION SHAPE PRIMITIVES (derived from Ball::mMiniBalls, mMiniBoxes, mMiniCapsules)
 // ============================================================================
 
-/**
- * @brief Spherical collision primitive (MiniBall).
- * Simple sphere with local offset and radius.
- */
 struct SphereComponent {
     Vector3d localPosition;
     float radius = 0.0f;
 };
 
-/**
- * @brief Box-shaped collision primitive (MiniBox).
- * Defined by local position, half-extents, and optional orientation.
- */
 struct BoxComponent {
     Vector3d localPosition;
     Vector3d halfExtents;
     Quaternion orientation;
 };
 
-/**
- * @brief Capsule-shaped collision primitive (MiniCapsule).
- * Defined by local position, axis direction, radius, and half-length.
- */
 struct CapsuleComponent {
     Vector3d localPosition;
-    Vector3d axis;           // Should be normalized
+    Vector3d axis;
     float radius = 0.0f;
     float halfLength = 0.0f;
 };
 
 // ============================================================================
-// Bubble (Spatial Interest Region)
+// BUBBLE (derived from Destiny spatial partitioning / interest management bubbles)
 // ============================================================================
 
-/**
- * @brief Represents a spatial bubble/region used for interest management and grid partitioning.
- * Bubbles define areas of relevance for entities within a Ballpark.
- */
 struct BubbleComponent {
     Vector3d center;
     float radius = 0.0f;
-    uint32_t gridLevel = 0;     // Hierarchical grid level this bubble belongs to
+    uint32_t gridLevel = 0;
     uint32_t bubbleId = 0;
     bool active = true;
 };
 
 // ============================================================================
-// Wreck / Debris
+// WRECK / DEBRIS (derived from wreck entities managed by Ballpark)
 // ============================================================================
 
-/**
- * @brief Marks an entity as a wreck or debris.
- * Wrecks are typically static + collidable but no longer participate in movement simulation.
- * Additional wreck-specific data (decay, loot, etc.) can be added later.
- */
 struct WreckComponent {
     uint32_t wreckType = 0;
     double decayTimer = 0.0;
@@ -127,13 +91,9 @@ struct WreckComponent {
 };
 
 // ============================================================================
-// Behavioral Mode (from DSTBALLMODE)
+// BEHAVIORAL MODE (derived from Ball::mMode and DSTBALLMODE constants in Ball.h)
 // ============================================================================
 
-/**
- * @brief Complete set of behavioral modes from the original DSTBALLMODE constants.
- * This enum should be kept in sync with the original DSTBALLMODE definition.
- */
 enum class BallMode : uint8_t {
     Stop      = 0,
     Goto,
@@ -151,16 +111,10 @@ enum class BallMode : uint8_t {
     Evade,
     Dock,
     Undock,
-    // Additional modes from DSTBALLMODE should be added here as identified
 };
 
-/**
- * @brief Current behavioral mode and associated parameters.
- */
 struct BallModeComponent {
     BallMode mode = BallMode::Stop;
-
-    // Mode-specific targeting / orbit data
     Vector3d targetPosition;
     uint64_t targetEntity = 0;
     float orbitRadius = 0.0f;
@@ -168,12 +122,9 @@ struct BallModeComponent {
 };
 
 // ============================================================================
-// Proximity Sensor
+// PROXIMITY SENSOR (derived from Ball::mSensor / ProximitySensor in Ball.h)
 // ============================================================================
 
-/**
- * @brief Proximity sensor configuration and runtime state.
- */
 struct ProximityComponent {
     float range = 0.0f;
     double period = 2.0;
@@ -183,12 +134,9 @@ struct ProximityComponent {
 };
 
 // ============================================================================
-// Ownership & Identity
+// OWNERSHIP (derived from Ball ownership/alliance data)
 // ============================================================================
 
-/**
- * @brief Ownership and alliance information.
- */
 struct OwnershipComponent {
     uint64_t ownerId = 0;
     uint32_t allianceId = 0;
@@ -196,12 +144,9 @@ struct OwnershipComponent {
 };
 
 // ============================================================================
-// Formation
+// FORMATION (derived from Ball formation data)
 // ============================================================================
 
-/**
- * @brief Formation membership and slot assignment.
- */
 struct FormationComponent {
     uint64_t formationLeader = 0;
     uint32_t formationSlot = 0;
@@ -209,12 +154,9 @@ struct FormationComponent {
 };
 
 // ============================================================================
-// Cloaking
+// CLOAKING (derived from Ball cloaking state)
 // ============================================================================
 
-/**
- * @brief Cloaking state and timers.
- */
 struct CloakComponent {
     bool isCloaked = false;
     float cloakStrength = 0.0f;
@@ -222,27 +164,104 @@ struct CloakComponent {
 };
 
 // ============================================================================
-// Harmonics / Effects
+// HARMONICS / EFFECTS (derived from Ball harmonics and effect state)
 // ============================================================================
 
-/**
- * @brief Harmonics and special effect state.
- */
 struct HarmonicsComponent {
     uint32_t harmonicState = 0;
     double harmonicTimer = 0.0;
 };
 
 // ============================================================================
-// Spatial Partitioning
+// SPATIAL PARTITIONING (derived from Ball grid/partition data in Ball.h)
 // ============================================================================
 
-/**
- * @brief Data related to the hierarchical grid / spatial partition system.
- */
 struct SpatialPartitionComponent {
     uint32_t activeBoxCount = 0;
-    // Can be expanded when a data-oriented Partition system is implemented.
+};
+
+// ============================================================================
+// GENERAL EFFECT / TIMED EVENT
+// ============================================================================
+
+struct EffectComponent {
+    uint32_t effectType = 0;
+    double duration = 0.0;
+    double elapsed = 0.0;
+};
+
+// ============================================================================
+// SIGNATURE (derived from ship/sensor signature data)
+// ============================================================================
+
+struct SignatureComponent {
+    float signatureRadius = 0.0f;
+    uint32_t signatureType = 0;
+};
+
+// ============================================================================
+// DAMAGE STATE
+// ============================================================================
+
+struct DamageComponent {
+    double hull = 0.0;
+    double armor = 0.0;
+    double shield = 0.0;
+};
+
+// ============================================================================
+// SHIELD
+// ============================================================================
+
+struct ShieldComponent {
+    double hitpoints = 0.0;
+    double rechargeRate = 0.0;
+};
+
+// ============================================================================
+// ARMOR
+// ============================================================================
+
+struct ArmorComponent {
+    double hitpoints = 0.0;
+    double repairRate = 0.0;
+};
+
+// ============================================================================
+// CONTAINER / CARGO
+// ============================================================================
+
+struct ContainerComponent {
+    uint32_t capacity = 0;
+    uint32_t used = 0;
+};
+
+// ============================================================================
+// INTERPOLATION (for ClientBall / client-side prediction)
+// ============================================================================
+
+struct InterpolationComponent {
+    double interpolationFactor = 0.0;
+    bool isInterpolating = false;
+};
+
+// ============================================================================
+// SENSOR
+// ============================================================================
+
+struct SensorComponent {
+    float strength = 0.0f;
+    float range = 0.0f;
+    float resolution = 0.0f;
+};
+
+// ============================================================================
+// GENERAL STATE / FLAGS
+// ============================================================================
+
+struct StateComponent {
+    uint32_t flags = 0;
+    double timer = 0.0;
 };
 
 } // namespace ecs
