@@ -11,8 +11,9 @@ namespace ecs {
 
 class World;
 struct TransformComponent;
-struct PhysicsPropertiesComponent;
-struct ModeComponent;
+struct KinematicComponent;
+struct CollidableComponent;
+struct BallModeComponent;
 
 class SimulationCore {
 public:
@@ -29,8 +30,9 @@ public:
     void DestroyEntity(uint64_t entity);
 
     void AddTransform(uint64_t entity, const TransformComponent& transform);
-    void AddPhysicsProperties(uint64_t entity, const PhysicsPropertiesComponent& props);
-    void AddMode(uint64_t entity, const ModeComponent& mode);
+    void AddKinematic(uint64_t entity, const KinematicComponent& component);
+    void AddCollidable(uint64_t entity, const CollidableComponent& component);
+    void AddBallMode(uint64_t entity, const BallModeComponent& component);
 
     void Evolve(double dt);
 

@@ -4,6 +4,7 @@
 
 #include "SimulationCore.h"
 #include "World.h"
+#include "Components.h"
 #include <iostream>
 
 namespace ecs {
@@ -29,8 +30,9 @@ uint64_t SimulationCore::CreateEntity() { return mWorld->CreateEntity(); }
 void SimulationCore::DestroyEntity(uint64_t entity) { mWorld->GetEntityManager().DestroyEntity(entity); }
 
 void SimulationCore::AddTransform(uint64_t entity, const TransformComponent& transform) { mWorld->AddTransform(entity, transform); }
-void SimulationCore::AddPhysicsProperties(uint64_t entity, const PhysicsPropertiesComponent& props) { mWorld->AddPhysicsProperties(entity, props); }
-void SimulationCore::AddMode(uint64_t entity, const ModeComponent& mode) { mWorld->AddMode(entity, mode); }
+void SimulationCore::AddKinematic(uint64_t entity, const KinematicComponent& component) { mWorld->AddKinematic(entity, component); }
+void SimulationCore::AddCollidable(uint64_t entity, const CollidableComponent& component) { mWorld->AddCollidable(entity, component); }
+void SimulationCore::AddBallMode(uint64_t entity, const BallModeComponent& component) { mWorld->AddBallMode(entity, component); }
 
 void SimulationCore::Evolve(double dt) {}
 
