@@ -3,31 +3,24 @@
 **Branch:** `ecs/phase-0-foundation`
 **Status:** In Progress
 
-## Current Structure (`src/ecs/`)
+## Current Structure
 
-```
-src/ecs/
-├── Components.h
-├── EntityManager.h          # Creates/destroys entity IDs
-├── EntityManager.cpp
-├── World.h                  # Central ECS container (owns EntityManager)
-├── World.cpp
-├── SimulationCore.h         # Owns World, will manage Systems
-├── SimulationCore.cpp
-└── Ballpark_NewCore.h
-└── Ballpark_NewCore.cpp
-```
+All ECS pieces now have basic working functionality:
+
+- `EntityManager`: Creates entity IDs
+- `World`: Owns EntityManager + basic component storage (maps for now)
+- `SimulationCore`: Owns World, can create entities and add components
 
 ## Completed
 
-- [x] Feature flag
-- [x] Components
 - [x] EntityManager
-- [x] World (owns EntityManager)
-- [x] SimulationCore now owns a World
-- [x] Ballpark_NewCore helper
+- [x] World with component storage
+- [x] SimulationCore wired to World
+- [x] Basic working flow: CreateEntity → AddComponent
 
-## Next Steps
-- Wire `Ballpark_NewCore` into main `Ballpark`
-- Add component storage to `World`
-- Define basic System interface
+## Next Priorities (before wiring to Ballpark)
+
+- Make `Evolve()` do something meaningful (e.g. simple movement integration)
+- Add a simple test or usage example
+- Improve component access (maybe templated GetComponent later)
+- Prepare clean API for `Ballpark_NewCore` to use
