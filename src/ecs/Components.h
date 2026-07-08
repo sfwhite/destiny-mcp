@@ -12,17 +12,14 @@ namespace ecs {
 
 // ============================================================================
 // TRANSFORM / MOTION STATE
-// Source: Ball.h
 // ============================================================================
 
 struct TransformComponent {
-    // Current frame
     Vector3d position;             // From Ball::mNewPos
     Vector3d velocity;             // From Ball::mNewVel
     Quaternion rotation;           // From Ball::mNewRot
     Vector3d angularVelocity;      // From Ball::mNewAngVel
 
-    // Previous frame (for integration / interpolation)
     Vector3d oldPosition;          // From Ball::mOldPos
     Vector3d oldVelocity;          // From Ball::mOldVel
     Quaternion oldRotation;        // From Ball::mOldRot
@@ -31,52 +28,48 @@ struct TransformComponent {
 
 // ============================================================================
 // KINEMATIC (Movement Physics Parameters)
-// Source: Ball.h - physics parameters used for movement simulation
 // ============================================================================
 
 struct KinematicComponent {
-    double mass = 0.0;               // From Ball physics parameters (mass)
-    float agility = 0.0f;            // From Ball physics parameters (agility)
-    float maxVelocity = 0.0f;        // From Ball physics parameters (maxVelocity)
-    float maxAngularVelocity = 0.0f; // From Ball physics parameters (maxAngularVelocity)
-    float rollAgility = 0.0f;        // From Ball physics parameters (rollAgility)
+    double mass = 0.0;               // From Ball physics parameters
+    float agility = 0.0f;            // From Ball physics parameters
+    float maxVelocity = 0.0f;        // From Ball physics parameters
+    float maxAngularVelocity = 0.0f; // From Ball physics parameters
+    float rollAgility = 0.0f;        // From Ball physics parameters
 };
 
 // ============================================================================
 // COLLIDABLE
-// Source: Ball collision participation + radius + Mini* shapes
 // ============================================================================
 
 struct CollidableComponent {
-    float radius = 0.0f;             // From Ball radius and compound Mini* collision data
+    float radius = 0.0f;             // From Ball radius + Mini* shapes
 };
 
 // ============================================================================
 // COLLISION SHAPE PRIMITIVES (Mini* shapes)
-// Source: Ball.h - mMiniBalls, mMiniBoxes, mMiniCapsules
 // ============================================================================
 
 struct SphereComponent {
-    Vector3d localPosition;          // Local offset from parent entity (MiniBall data)
-    float radius = 0.0f;             // Radius of the spherical primitive (MiniBall)
+    Vector3d localPosition;          // From MiniBall local position
+    float radius = 0.0f;             // From MiniBall radius
 };
 
 struct BoxComponent {
-    Vector3d localPosition;          // Local offset from parent entity (MiniBox data)
-    Vector3d halfExtents;            // Half-extents of the box (MiniBox data)
-    Quaternion orientation;          // Orientation of the box primitive
+    Vector3d localPosition;          // From MiniBox local position
+    Vector3d halfExtents;            // From MiniBox halfExtents
+    Quaternion orientation;          // From MiniBox orientation
 };
 
 struct CapsuleComponent {
-    Vector3d localPosition;          // Local offset from parent entity (MiniCapsule data)
-    Vector3d axis;                   // Direction of the capsule axis
-    float radius = 0.0f;             // Radius of the capsule
-    float halfLength = 0.0f;         // Half-length of the capsule
+    Vector3d localPosition;          // From MiniCapsule local position
+    Vector3d axis;                   // From MiniCapsule axis
+    float radius = 0.0f;             // From MiniCapsule radius
+    float halfLength = 0.0f;         // From MiniCapsule halfLength
 };
 
 // ============================================================================
 // BEHAVIORAL MODE
-// Source: Ball.h - mMode (DSTBALLMODE) and mode-specific data
 // ============================================================================
 
 enum class BallMode : uint8_t {
@@ -99,18 +92,16 @@ enum class BallMode : uint8_t {
 };
 
 struct BallModeComponent {
-    BallMode mode = BallMode::Stop;  // From Ball::mMode (DSTBALLMODE)
+    BallMode mode = BallMode::Stop;  // From Ball::mMode
 
-    // Mode-specific parameters
-    Vector3d targetPosition;         // Target position (Goto / Approach / Warp modes)
-    uint64_t targetEntity = 0;       // Target entity (Follow / Orbit modes)
-    float orbitRadius = 0.0f;        // Orbit radius (Orbit mode)
-    float orbitSpeed = 0.0f;         // Orbit speed (Orbit mode)
+    Vector3d targetPosition;         // From mode target position data
+    uint64_t targetEntity = 0;       // From mode target entity data
+    float orbitRadius = 0.0f;        // From Orbit mode data
+    float orbitSpeed = 0.0f;         // From Orbit mode data
 };
 
 // ============================================================================
 // PROXIMITY SENSOR
-// Source: Ball.h - ProximitySensor struct (mSensor)
 // ============================================================================
 
 struct ProximityComponent {
@@ -123,78 +114,71 @@ struct ProximityComponent {
 
 // ============================================================================
 // OWNERSHIP & IDENTITY
-// Source: Ball ownership, alliance, and corporation data
 // ============================================================================
 
 struct OwnershipComponent {
-    uint64_t ownerId = 0;            // Owner entity ID
-    uint32_t allianceId = 0;         // Alliance ID
-    uint32_t corporationId = 0;      // Corporation ID
+    uint64_t ownerId = 0;            // From Ball ownership data
+    uint32_t allianceId = 0;         // From Ball alliance data
+    uint32_t corporationId = 0;      // From Ball corporation data
 };
 
 // ============================================================================
 // FORMATION
-// Source: Ball formation membership data
 // ============================================================================
 
 struct FormationComponent {
-    uint64_t formationLeader = 0;    // Formation leader entity ID
-    uint32_t formationSlot = 0;      // Slot index in formation
-    bool inFormation = false;        // Whether currently in formation
+    uint64_t formationLeader = 0;    // From Ball formation leader
+    uint32_t formationSlot = 0;      // From Ball formation slot
+    bool inFormation = false;        // From Ball formation state
 };
 
 // ============================================================================
 // CLOAKING
-// Source: Ball cloaking state and timers
 // ============================================================================
 
 struct CloakComponent {
-    bool isCloaked = false;          // Current cloaked state
-    float cloakStrength = 0.0f;      // Cloak strength / effectiveness
-    double cloakTimer = 0.0;         // Cloak timer
+    bool isCloaked = false;          // From Ball cloaking state
+    float cloakStrength = 0.0f;      // From Ball cloak strength
+    double cloakTimer = 0.0;         // From Ball cloak timer
 };
 
 // ============================================================================
 // HARMONICS / SPECIAL EFFECTS
-// Source: Ball harmonics and effect state
 // ============================================================================
 
 struct HarmonicsComponent {
-    uint32_t harmonicState = 0;      // Current harmonics state
-    double harmonicTimer = 0.0;      // Harmonics timer
+    uint32_t harmonicState = 0;      // From Ball harmonics state
+    double harmonicTimer = 0.0;      // From Ball harmonics timer
 };
 
 // ============================================================================
 // SPATIAL PARTITIONING
-// Source: Ball grid/partition data and Ballpark spatial system
 // ============================================================================
 
 struct SpatialPartitionComponent {
-    uint32_t activeBoxCount = 0;     // Number of currently active partition boxes
+    uint32_t activeBoxCount = 0;     // From Ball partition data
 };
 
 // ============================================================================
-// BUBBLE (Spatial Interest Region)
-// Source: Destiny spatial partitioning and interest management bubbles
+// BUBBLE
 // ============================================================================
 
 struct BubbleComponent {
-    Vector3d center;                 // Center of the bubble region
-    float radius = 0.0f;             // Radius of the bubble
-    uint32_t gridLevel = 0;          // Hierarchical grid level
-    uint32_t bubbleId = 0;           // Unique bubble identifier
-    bool active = true;              // Whether bubble is active
+    Vector3d center;                 // From Bubble center
+    float radius = 0.0f;             // From Bubble radius
+    uint32_t gridLevel = 0;          // From Bubble grid level
+    uint32_t bubbleId = 0;           // From Bubble ID
+    bool active = true;              // From Bubble active state
 };
 
 // ============================================================================
 // WRECK / DEBRIS
-// Source: Wreck and debris entities managed by Ballpark
 // ============================================================================
 
 struct WreckComponent {
-    uint32_t wreckType = 0;          // Type of wreck
-    double decayTimer = 0.0;         // Decay / lifetime timer
-    bool hasLoot = false;            // Whether wreck has loot
+    uint32_t wreckType = 0;          // From Wreck type
+    double decayTimer = 0.0;         // From Wreck decay timer
+    bool hasLoot = false;            // From Wreck loot flag
 };
 
 } // namespace ecs

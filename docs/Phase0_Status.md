@@ -2,8 +2,8 @@
 
 **Branch:** `ecs/phase-0-foundation`
 
-## Update: Consistent Per-Field Sourcing
+## Update: Per-Field Sourcing Standardized
 
-Made sourcing comments fully consistent across the entire file. Every field now has an explicit `// From ...` comment, matching the quality of `TransformComponent`.
+Standardized all sourcing comments to the exact format "From Class::member" across the entire file.
 
-All components are now properly sourced from the original Destiny code.
+Every field now follows the requested style.
