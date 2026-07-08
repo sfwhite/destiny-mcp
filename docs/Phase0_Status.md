@@ -2,16 +2,11 @@
 
 **Branch:** `ecs/phase-0-foundation`
 
-## Update: Components Consolidated
+## Current State
 
-All ECS components have been consolidated into a **single file**: `src/ecs/Components.h`.
+- All components are consolidated in a single file: `src/ecs/Components.h`
+- Deprecated `BallComponents.h` has been removed
+- `World` and `SimulationCore` have been updated to use the new component names (`KinematicComponent`, `CollidableComponent`, `BallModeComponent`)
+- `ArchetypeStorage` is fully generic (variadic template)
 
-- `BallComponents.h` has been deprecated (kept as a stub with a warning).
-- The file now contains the clean, up-to-date set:
-  - `TransformComponent`
-  - `KinematicComponent` + `CollidableComponent` (physics split)
-  - Full `BallMode` enum (matching DSTBALLMODE)
-  - `BallModeComponent`, `ProximityComponent`, `OwnershipComponent`, etc.
-  - `CompoundShapeComponent` (optional, for complex objects)
-
-This matches the user's preference for a single source of truth for components.
+The ECS foundation is now in a clean, consistent state with one source of truth for components.
