@@ -2,20 +2,19 @@
 
 **Branch:** `ecs/phase-0-foundation`
 
-## Step 2: Improving World
+## Step 3: Basic Component Registry
 
-`World` has been updated to better track entity-to-archetype relationships and manage `ArchetypeStorage` instances.
+Added a simple `ComponentRegistry` class.
 
-Key improvements:
-- Added `mEntityToSignature` map to track which archetype each entity belongs to.
-- Introduced `IArchetypeStorage` base class + `ArchetypeStorageWrapper` for type-erased storage management.
-- Component addition now updates the entity's current signature.
+- Assigns stable runtime IDs to component types using `std::type_index`.
+- Provides `registerComponent<T>()` and `getComponentId<T>()`.
+- This is the foundation for making archetype management and storage more generic in future steps.
 
-Note: Full archetype transitions (moving component data between storages) are still simplified. This will be addressed in Step 4.
+This is still minimal but provides the runtime type identification needed for a proper generic ECS.
 
-## Progress on the List
+## Progress
 
 - [x] 1. Implement getComponentArray<T>()
-- [x] 2. Improve World archetype management
-- [ ] 3. Add a basic Component Registry
+- [x] 2. Improve World
+- [x] 3. Add basic Component Registry
 - [ ] 4. Start handling archetype transitions
