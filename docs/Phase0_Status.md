@@ -3,31 +3,31 @@
 **Branch:** `ecs/phase-0-foundation`
 **Status:** In Progress
 
-## Directory Structure (All new code lives in `src/ecs/`)
+## Current Structure (`src/ecs/`)
 
 ```
 src/ecs/
-├── Components.h              # TransformComponent, PhysicsPropertiesComponent, ModeComponent
-├── SimulationCore.h          # Main high-performance core (entity manager + systems entry point)
+├── Components.h
+├── EntityManager.h          # Creates/destroys entity IDs
+├── EntityManager.cpp
+├── World.h                  # Central ECS container (owns EntityManager)
+├── World.cpp
+├── SimulationCore.h         # Owns World, will manage Systems
 ├── SimulationCore.cpp
-├── Ballpark_NewCore.h        # Dual-path helper for Ballpark
+└── Ballpark_NewCore.h
 └── Ballpark_NewCore.cpp
 ```
 
-## Completed in Phase 0
+## Completed
 
-- [x] Feature flag `DESTINY_USE_NEW_CORE` in `src/DestinyConfig.h`
-- [x] Initial component structs
-- [x] `SimulationCore` with `Initialize()` method
-- [x] `Ballpark_NewCore` dual-path helper (moved into `ecs/`)
-- [x] Updated main plan document
+- [x] Feature flag
+- [x] Components
+- [x] EntityManager
+- [x] World (owns EntityManager)
+- [x] SimulationCore now owns a World
+- [x] Ballpark_NewCore helper
 
-## Current State
-
-All new ECS classes now live cleanly inside the `src/ecs/` directory as requested.
-
-## Next Recommended Steps
-
-- Integrate `Ballpark_NewCore` into the main `Ballpark` class (conditional ownership + initialization)
-- Add basic entity creation routing through the new core
-- Begin defining a simple System base + registration in `SimulationCore::Initialize()`
+## Next Steps
+- Wire `Ballpark_NewCore` into main `Ballpark`
+- Add component storage to `World`
+- Define basic System interface
