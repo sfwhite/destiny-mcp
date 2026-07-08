@@ -3,24 +3,38 @@
 **Branch:** `ecs/phase-0-foundation`
 **Status:** In Progress
 
-## Current Structure
+## Architecture Decision
 
-All ECS pieces now have basic working functionality:
+Following user feedback, we are using **proper archetype-based storage from the very beginning** instead of temporary map-based storage. This avoids major refactors later.
 
-- `EntityManager`: Creates entity IDs
-- `World`: Owns EntityManager + basic component storage (maps for now)
-- `SimulationCore`: Owns World, can create entities and add components
+## Current Structure (`src/ecs/`)
 
-## Completed
+```
+src/ecs/
+├── Archetype.h              # Represents a unique set of components
+├── Archetype.cpp
+├── ArchetypeStorage.h       # SoA storage for one archetype
+├── ArchetypeStorage.cpp
+├── EntityManager.h
+├── EntityManager.cpp
+├── World.h                  # Manages archetypes and entity lifecycle
+├── World.cpp
+├── Components.h
+├── SimulationCore.h
+├── SimulationCore.cpp
+└── Ballpark_NewCore.*
+```
 
-- [x] EntityManager
-- [x] World with component storage
-- [x] SimulationCore wired to World
-- [x] Basic working flow: CreateEntity → AddComponent
+## Key Classes Implemented
 
-## Next Priorities (before wiring to Ballpark)
+- **Archetype**: Holds a component signature (bitmask).
+- **ArchetypeStorage**: Stores entities + components in SoA layout for one archetype.
+- **World**: Owns EntityManager and manages ArchetypeStorage instances.
 
-- Make `Evolve()` do something meaningful (e.g. simple movement integration)
-- Add a simple test or usage example
-- Improve component access (maybe templated GetComponent later)
-- Prepare clean API for `Ballpark_NewCore` to use
+All classes are fully documented.
+
+## Next Steps
+
+- Improve archetype transitions when adding components (currently simplified).
+- Add System infrastructure.
+- Continue making the pieces usable in isolation.
