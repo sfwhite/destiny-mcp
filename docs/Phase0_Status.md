@@ -2,15 +2,10 @@
 
 **Branch:** `ecs/phase-0-foundation`
 
-## Comprehensive Blanket Sweep Completed
+## Cleanup: Strict Sourcing Applied
 
-Performed a full pass over Ballpark children and added all major relevant components:
+`Components.h` has been cleaned up to only contain fields that exist in the original Destiny code.
 
-- Collision primitives (Sphere, Box, Capsule)
-- Bubble
-- Wreck
-- Effect, Signature, Damage, Shield, Armor, Container, Interpolation, Sensor, State
+Every attribute now has an explicit comment showing its source (primarily from `Ball.h`, `ProximitySensor`, Mini* shapes, spatial partitioning, and related Ballpark structures).
 
-Every component now includes sourcing comments indicating its origin in the original Destiny code (primarily from `Ball.h`, spatial partitioning, and related structures).
-
-All components are consolidated in `src/ecs/Components.h`.
+Invented or generalized attributes have been removed.
