@@ -2,12 +2,11 @@
 
 **Branch:** `ecs/phase-0-foundation`
 
-## Update: All Comments Standardized to 'From Class::member' Format
+## Final Sourcing Cleanup
 
-Every field in `Components.h` now uses the exact requested format:
-
+All fields now use the exact requested format:
 ```cpp
 Vector3d position;   // From Ball::mNewPos
 ```
 
-No more vague or inconsistent sourcing comments.
+Every component attribute has been updated for consistency.

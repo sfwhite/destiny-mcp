@@ -94,10 +94,10 @@ enum class BallMode : uint8_t {
 struct BallModeComponent {
     BallMode mode = BallMode::Stop;  // From Ball::mMode
 
-    Vector3d targetPosition;         // From Ball mode target position
-    uint64_t targetEntity = 0;       // From Ball mode target entity
-    float orbitRadius = 0.0f;        // From Ball orbit radius
-    float orbitSpeed = 0.0f;         // From Ball orbit speed
+    Vector3d targetPosition;         // From Ball::targetPosition
+    uint64_t targetEntity = 0;       // From Ball::targetEntity
+    float orbitRadius = 0.0f;        // From Ball::orbitRadius
+    float orbitSpeed = 0.0f;         // From Ball::orbitSpeed
 };
 
 // ============================================================================
