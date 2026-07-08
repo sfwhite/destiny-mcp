@@ -6,6 +6,6 @@
 
 namespace ecs {
 
-// Placeholder for future generic getComponentArray<T>() implementation using template metaprogramming.
+// No non-template implementation needed for now.
 
 } // namespace ecs

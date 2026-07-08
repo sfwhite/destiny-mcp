@@ -13,30 +13,30 @@ namespace ecs {
 
 using Entity = uint64_t;
 
+// === Compile-time helpers to find index of a type in a parameter pack ===
+
+template <typename T, typename... Ts>
+struct index_of;
+
+template <typename T, typename... Ts>
+struct index_of<T, T, Ts...> : std::integral_constant<std::size_t, 0> {};
+
+template <typename T, typename U, typename... Ts>
+struct index_of<T, U, Ts...> : std::integral_constant<std::size_t, 1 + index_of<T, Ts...>::value> {};
+
 /**
- * @brief A generic storage container for one archetype using Structure-of-Arrays layout.
+ * @brief Generic storage for one archetype using Structure-of-Arrays layout.
  *
- * This class is fully generic via variadic templates. It can hold any combination
- * of component types without hardcoding specific components.
- *
- * Each instantiation of ArchetypeStorage<Components...> represents entities that
- * have exactly the components listed in the template parameter pack.
- *
- * Data is stored in contiguous arrays (SoA) for cache-friendly iteration.
+ * This class is fully generic. It uses variadic templates so it can support
+ * any combination of component types without modification.
  */
 template <typename... Components>
 class ArchetypeStorage {
 public:
-    /**
-     * @brief Default constructor.
-     */
     ArchetypeStorage() = default;
 
     /**
-     * @brief Adds a new entity along with its component data.
-     *
-     * @param entity   The entity ID to add.
-     * @param comps    The component values for this entity (in the same order as the template parameters).
+     * @brief Adds an entity with its component data to this storage.
      */
     void addEntity(Entity entity, Components... comps) {
         entities.push_back(entity);
@@ -44,44 +44,41 @@ public:
     }
 
     /**
-     * @brief Returns the number of entities currently stored.
+     * @brief Returns how many entities are in this storage.
      */
     size_t size() const noexcept { return entities.size(); }
 
     /**
-     * @brief Returns a const reference to the entity ID array.
+     * @brief Returns the entity ID array.
      */
     const std::vector<Entity>& getEntities() const noexcept { return entities; }
 
     /**
-     * @brief Returns a reference to the component array for a specific type.
+     * @brief Returns a reference to the component array for type T.
      *
-     * @tparam T The component type to retrieve the array for.
-     * @return Reference to the internal vector storing components of type T.
+     * @tparam T The component type to access.
+     * @return Reference to the internal std::vector<T>.
      */
     template <typename T>
-    std::vector<T>& getComponentArray();
+    std::vector<T>& getComponentArray() {
+        constexpr std::size_t Index = index_of<T, Components...>::value;
+        return std::get<Index>(componentArrays);
+    }
 
     template <typename T>
-    const std::vector<T>& getComponentArray() const;
+    const std::vector<T>& getComponentArray() const {
+        constexpr std::size_t Index = index_of<T, Components...>::value;
+        return std::get<Index>(componentArrays);
+    }
 
 private:
-    /// Entity IDs in this archetype
     std::vector<Entity> entities;
-
-    /// Component data stored as a tuple of vectors (Structure of Arrays)
     std::tuple<std::vector<Components>...> componentArrays;
 
-    /**
-     * @brief Helper to push components into the correct vectors using index sequence.
-     */
     template <std::size_t... Is>
     void addToArrays(std::index_sequence<Is...>, Components&&... comps) {
         (std::get<Is>(componentArrays).push_back(std::forward<Components>(comps)), ...);
     }
 };
-
-// Note: Full implementation of getComponentArray<T>() requires additional metaprogramming.
-// It will be completed in a follow-up step.
 
 } // namespace ecs
