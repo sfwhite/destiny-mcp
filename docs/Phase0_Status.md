@@ -2,16 +2,20 @@
 
 **Branch:** `ecs/phase-0-foundation`
 
-## Update: Generic ArchetypeStorage
+## Step 2: Improving World
 
-`ArchetypeStorage` has been upgraded to a fully variadic template version with working `getComponentArray<T>()`.
+`World` has been updated to better track entity-to-archetype relationships and manage `ArchetypeStorage` instances.
 
-- Uses `std::tuple<std::vector<Components>...>` for SoA storage.
-- `getComponentArray<T>()` is now implemented using compile-time `index_of` metaprogramming.
-- The class is now properly generic and does not hardcode any specific component types.
+Key improvements:
+- Added `mEntityToSignature` map to track which archetype each entity belongs to.
+- Introduced `IArchetypeStorage` base class + `ArchetypeStorageWrapper` for type-erased storage management.
+- Component addition now updates the entity's current signature.
 
-This fulfills the requirement to design the storage layer correctly from the beginning.
+Note: Full archetype transitions (moving component data between storages) are still simplified. This will be addressed in Step 4.
 
-## Next on the List
+## Progress on the List
 
-2. Improve `World` to manage multiple `ArchetypeStorage<...>` instantiations properly.
+- [x] 1. Implement getComponentArray<T>()
+- [x] 2. Improve World archetype management
+- [ ] 3. Add a basic Component Registry
+- [ ] 4. Start handling archetype transitions
