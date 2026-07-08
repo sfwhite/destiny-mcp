@@ -2,14 +2,13 @@
 
 **Branch:** `ecs/phase-0-foundation`
 
-## Update: Collision Shape Primitives Added
+## Update: Bubble and Wreck Components Added
 
-Added dedicated components for Mini* collision shapes:
+Added two more key components:
 
-- `SphereComponent` (MiniBall)
-- `BoxComponent` (MiniBox)
-- `CapsuleComponent` (MiniCapsule)
+- `BubbleComponent` — Spatial interest management and grid partitioning regions.
+- `WreckComponent` — For dead/static objects (wrecks/debris) that remain collidable.
 
-These allow entities to have complex or compound collision geometry in addition to the base `CollidableComponent`.
+This continues the systematic decomposition of Ballpark children into clean ECS components.
 
-All components remain in the single `Components.h` file as requested.
+All components remain consolidated in `src/ecs/Components.h`.

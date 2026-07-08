@@ -96,6 +96,37 @@ struct CapsuleComponent {
 };
 
 // ============================================================================
+// Bubble (Spatial Interest Region)
+// ============================================================================
+
+/**
+ * @brief Represents a spatial bubble/region used for interest management and grid partitioning.
+ * Bubbles define areas of relevance for entities within a Ballpark.
+ */
+struct BubbleComponent {
+    Vector3d center;
+    float radius = 0.0f;
+    uint32_t gridLevel = 0;     // Hierarchical grid level this bubble belongs to
+    uint32_t bubbleId = 0;
+    bool active = true;
+};
+
+// ============================================================================
+// Wreck / Debris
+// ============================================================================
+
+/**
+ * @brief Marks an entity as a wreck or debris.
+ * Wrecks are typically static + collidable but no longer participate in movement simulation.
+ * Additional wreck-specific data (decay, loot, etc.) can be added later.
+ */
+struct WreckComponent {
+    uint32_t wreckType = 0;
+    double decayTimer = 0.0;
+    bool hasLoot = false;
+};
+
+// ============================================================================
 // Behavioral Mode (from DSTBALLMODE)
 // ============================================================================
 
