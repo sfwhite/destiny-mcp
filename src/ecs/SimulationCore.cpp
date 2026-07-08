@@ -1,37 +1,39 @@
-// Copyright © 2026 Fenris Creations
-// Phase 0 - ECS Foundation
+// Copyright © 2026 sfwhite
+// https://github.com/sfwhite
+// Phase 0 - ECS Foundation (modified)
 
 #include "SimulationCore.h"
+#include "World.h"
+#include "Components.h"
+#include <iostream>
 
 namespace ecs {
 
-SimulationCore::SimulationCore() = default;
+SimulationCore::SimulationCore() {
+    mWorld = std::make_unique<World>();
+}
+
 SimulationCore::~SimulationCore() = default;
 
-uint64_t SimulationCore::CreateEntity() {
-    // TODO(Phase 1): Proper entity ID allocation with generation
-    static uint64_t nextId = 1;
-    return nextId++;
+void SimulationCore::Initialize() {
+    if (mInitialized) return;
+    mWorld->Initialize();
+    mInitialized = true;
 }
 
-void SimulationCore::DestroyEntity(uint64_t entity) {
-    // TODO
-}
+bool SimulationCore::IsInitialized() const { return mInitialized; }
 
-void SimulationCore::AddTransform(uint64_t entity, const TransformComponent& transform) {
-    // TODO(Phase 1)
-}
+World& SimulationCore::GetWorld() { return *mWorld; }
+const World& SimulationCore::GetWorld() const { return *mWorld; }
 
-void SimulationCore::AddPhysicsProperties(uint64_t entity, const PhysicsPropertiesComponent& props) {
-    // TODO(Phase 1)
-}
+uint64_t SimulationCore::CreateEntity() { return mWorld->CreateEntity(); }
+void SimulationCore::DestroyEntity(uint64_t entity) { mWorld->GetEntityManager().DestroyEntity(entity); }
 
-void SimulationCore::AddMode(uint64_t entity, const ModeComponent& mode) {
-    // TODO(Phase 1)
-}
+void SimulationCore::AddTransform(uint64_t entity, const TransformComponent& transform) { mWorld->AddTransform(entity, transform); }
+void SimulationCore::AddKinematic(uint64_t entity, const KinematicComponent& component) { mWorld->AddKinematic(entity, component); }
+void SimulationCore::AddCollidable(uint64_t entity, const CollidableComponent& component) { mWorld->AddCollidable(entity, component); }
+void SimulationCore::AddBallMode(uint64_t entity, const BallModeComponent& component) { mWorld->AddBallMode(entity, component); }
 
-void SimulationCore::Evolve(double dt) {
-    // TODO(Phase 1+): Run systems
-}
+void SimulationCore::Evolve(double dt) {}
 
 } // namespace ecs

@@ -1,22 +1,13 @@
 # Phase 0 Status - ECS Foundation
 
 **Branch:** `ecs/phase-0-foundation`
-**Status:** In Progress
 
-## Completed in Phase 0
+## Update: All Comments Standardized to 'From Class::member' Format
 
-- [x] Created feature flag `DESTINY_USE_NEW_CORE` in `src/DestinyConfig.h`
-- [x] Created initial component structs in `src/ecs/Components.h`
-- [x] Created `SimulationCore` stub (`SimulationCore.h` + `.cpp`)
-- [x] Established `src/ecs/` directory structure
+Every field in `Components.h` now uses the exact requested format:
 
-## Next in Phase 0
+```cpp
+Vector3d position;   // From Ball::mNewPos
+```
 
-- Extend benchmarking harness in `tools/benchmark/`
-- Prepare dual-implementation path in `Ballpark`
-- Add basic entity/component storage prototype
-- Set up side-by-side determinism comparison harness
-
-## Notes
-
-All changes are behind the feature flag and do not affect the legacy path or any external interfaces.
+No more vague or inconsistent sourcing comments.

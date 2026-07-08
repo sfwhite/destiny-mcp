@@ -1,42 +1,44 @@
-// Copyright © 2026 Fenris Creations
-// Phase 0 - ECS Foundation
+// Copyright © 2026 sfwhite
+// https://github.com/sfwhite
+// Phase 0 - ECS Foundation (modified)
 
 #pragma once
 
 #include <cstdint>
+#include <memory>
 
 namespace ecs {
 
-// Forward declarations
+class World;
 struct TransformComponent;
-struct PhysicsPropertiesComponent;
-struct ModeComponent;
+struct KinematicComponent;
+struct CollidableComponent;
+struct BallModeComponent;
 
-/**
- * SimulationCore - High-performance internal simulation core.
- * This will eventually replace the heavy Ball + Partition logic inside Ballpark.
- * Phase 0: Minimal stub for foundation and benchmarking.
- */
 class SimulationCore {
 public:
     SimulationCore();
     ~SimulationCore();
 
-    // Entity management (IDs only in Phase 0)
+    void Initialize();
+    bool IsInitialized() const;
+
+    World& GetWorld();
+    const World& GetWorld() const;
+
     uint64_t CreateEntity();
     void DestroyEntity(uint64_t entity);
 
-    // Basic component attachment (Phase 0 stubs)
     void AddTransform(uint64_t entity, const TransformComponent& transform);
-    void AddPhysicsProperties(uint64_t entity, const PhysicsPropertiesComponent& props);
-    void AddMode(uint64_t entity, const ModeComponent& mode);
+    void AddKinematic(uint64_t entity, const KinematicComponent& component);
+    void AddCollidable(uint64_t entity, const CollidableComponent& component);
+    void AddBallMode(uint64_t entity, const BallModeComponent& component);
 
-    // Minimal evolve step (will grow significantly)
     void Evolve(double dt);
 
 private:
-    // Internal registry / storage will be implemented in later phases
-    // For now this is a stub to allow compilation and benchmarking setup
+    bool mInitialized = false;
+    std::unique_ptr<World> mWorld;
 };
 
 } // namespace ecs
