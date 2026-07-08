@@ -62,16 +62,24 @@ struct CollidableComponent {
 };
 
 // ============================================================================
-// Behavioral Mode
+// Behavioral Mode (from DSTBALLMODE)
 // ============================================================================
 
+/**
+ * @brief Behavioral modes corresponding to DSTBALLMODE constants.
+ * This enum should eventually match or map to the original DSTBALLMODE values.
+ */
 enum class BallMode : uint8_t {
-    Stop = 0,
+    Stop         = 0,
     Goto,
     Follow,
     Orbit,
     Missile,
-    // Extend as needed from DSTBALLMODE
+    Warp,
+    Approach,
+    Flee,
+    Stopped,
+    // Add any additional modes from DSTBALLMODE as they are identified
 };
 
 /**
