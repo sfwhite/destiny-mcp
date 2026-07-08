@@ -2,24 +2,26 @@
 
 **Branch:** `ecs/phase-0-foundation`
 
-## Step 4: Beginning Archetype Transitions
+## Major Update: Comprehensive Ball Data Decomposition
 
-We have started implementing archetype transition support in `World`.
+Created `src/ecs/BallComponents.h` containing a broad set of data components extracted from the original `Ball` class.
 
-- Added `MoveEntityToArchetype()` method.
-- Component addition methods now call into the transition logic when the entity's component set changes.
-- Entity signature tracking (`mEntityToSignature`) is actively used.
+This allows the new ECS side to be tested in isolation with realistic data structures.
 
-**Current Limitations (documented):**
-- Actual component data is not yet copied/moved between `ArchetypeStorage` instances when an entity changes archetypes.
-- Removal from the old storage is not yet implemented.
-- This is intentional scaffolding to establish the architecture correctly.
+Components created:
+- TransformComponent
+- PhysicsPropertiesComponent
+- BallModeComponent
+- CompoundShapeComponent
+- ProximityComponent
+- OwnershipComponent
+- FormationComponent
+- CloakComponent
+- HarmonicsComponent
+- SpatialPartitionComponent
 
-## Overall Progress
+These are pure data structs. Mutation logic will be moved into Systems in later steps.
 
-- [x] 1. `getComponentArray<T>()`
-- [x] 2. Improve `World` management
-- [x] 3. Basic Component Registry
-- [x] 4. Start archetype transitions (foundation laid)
+## Goal
 
-The core pieces are now in place. Future work can focus on completing data migration and integrating with `SimulationCore` and `Ballpark`.
+Enable standalone testing of the ECS boilerplate (`World`, `ArchetypeStorage`, `SimulationCore`, etc.) using realistic component data before any integration with the legacy `Ball` / `Ballpark` code.
