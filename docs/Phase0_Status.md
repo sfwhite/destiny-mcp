@@ -3,21 +3,31 @@
 **Branch:** `ecs/phase-0-foundation`
 **Status:** In Progress
 
-## Completed
+## Directory Structure (All new code lives in `src/ecs/`)
 
-- [x] Feature flag `DESTINY_USE_NEW_CORE`
+```
+src/ecs/
+├── Components.h              # TransformComponent, PhysicsPropertiesComponent, ModeComponent
+├── SimulationCore.h          # Main high-performance core (entity manager + systems entry point)
+├── SimulationCore.cpp
+├── Ballpark_NewCore.h        # Dual-path helper for Ballpark
+└── Ballpark_NewCore.cpp
+```
+
+## Completed in Phase 0
+
+- [x] Feature flag `DESTINY_USE_NEW_CORE` in `src/DestinyConfig.h`
 - [x] Initial component structs
-- [x] `SimulationCore` stub + `Initialize()` method
-- [x] `Ballpark_NewCore` helper (dual-path skeleton)
-- [x] Updated plan document with stable `Ball` adapter strategy
+- [x] `SimulationCore` with `Initialize()` method
+- [x] `Ballpark_NewCore` dual-path helper (moved into `ecs/`)
+- [x] Updated main plan document
 
-## Current Focus
+## Current State
 
-- Integrating dual-path logic into main `Ballpark`
-- Entity manager + System initialization when new core is enabled
-- Preparing for `Ball` adapter pattern
+All new ECS classes now live cleanly inside the `src/ecs/` directory as requested.
 
-## Next Steps
-- Add conditional ownership of `SimulationCore` inside main `Ballpark` class
-- Wire `InitializeNewCore()` call based on feature flag
-- Begin basic entity creation routing
+## Next Recommended Steps
+
+- Integrate `Ballpark_NewCore` into the main `Ballpark` class (conditional ownership + initialization)
+- Add basic entity creation routing through the new core
+- Begin defining a simple System base + registration in `SimulationCore::Initialize()`
