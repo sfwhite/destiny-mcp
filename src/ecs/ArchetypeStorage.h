@@ -4,65 +4,65 @@
 
 #pragma once
 
-#include "Archetype.h"
-#include "Components.h"
 #include <vector>
+#include <tuple>
 #include <cstdint>
 
 namespace ecs {
 
+using Entity = uint64_t;
+
 /**
- * @brief Stores all entities that belong to one specific archetype in Structure-of-Arrays (SoA) layout.
+ * @brief Stores entities and their components for one specific archetype using Structure-of-Arrays.
  *
- * This is the core storage unit in an archetype-based ECS. All entities in one ArchetypeStorage
- * have exactly the same components, allowing us to iterate over them very efficiently.
+ * This version is fully generic via variadic templates. Each instantiation of
+ * ArchetypeStorage<Components...> corresponds to one unique combination of components.
  *
- * For Phase 0 we support a fixed set of components. In later phases this can be made fully generic.
+ * Example:
+ *   ArchetypeStorage<TransformComponent, VelocityComponent>
  */
+template <typename... Components>
 class ArchetypeStorage {
 public:
     /**
-     * @brief Constructs storage for a given archetype.
-     * @param archetype The archetype this storage is responsible for.
+     * @brief Adds a new entity along with its component data to this storage.
      */
-    explicit ArchetypeStorage(const Archetype& archetype);
+    void addEntity(Entity entity, Components... components) {
+        entities.push_back(entity);
+        addComponentsToTuple(std::index_sequence_for<Components...>{}, std::forward<Components>(components)...);
+    }
 
     /**
-     * @brief Returns the archetype associated with this storage.
+     * @brief Returns the number of entities in this archetype storage.
      */
-    const Archetype& GetArchetype() const { return mArchetype; }
+    size_t size() const { return entities.size(); }
 
     /**
-     * @brief Adds a new entity to this storage with the given components.
-     *        All required components for the archetype must be provided.
+     * @brief Returns the list of entity IDs in this storage.
      */
-    void AddEntity(uint64_t entity,
-                   const TransformComponent& transform,
-                   const PhysicsPropertiesComponent& physics,
-                   const ModeComponent& mode);
+    const std::vector<Entity>& getEntities() const { return entities; }
 
     /**
-     * @brief Returns the number of entities currently stored in this archetype.
+     * @brief Returns a reference to the component array for a specific component type.
+     * @tparam T The component type to retrieve.
      */
-    size_t GetEntityCount() const { return mEntities.size(); }
+    template <typename T>
+    std::vector<T>& getComponentArray();
 
-    // Accessors for component arrays (SoA layout)
-    std::vector<uint64_t>& GetEntities() { return mEntities; }
-    std::vector<TransformComponent>& GetTransforms() { return mTransforms; }
-    std::vector<PhysicsPropertiesComponent>& GetPhysicsProperties() { return mPhysicsProperties; }
-    std::vector<ModeComponent>& GetModes() { return mModes; }
+    template <typename T>
+    const std::vector<T>& getComponentArray() const;
 
 private:
-    /// The archetype this storage represents
-    Archetype mArchetype;
+    std::vector<Entity> entities;
+    std::tuple<std::vector<Components>...> componentArrays;
 
-    /// Entity IDs stored in this archetype
-    std::vector<uint64_t> mEntities;
-
-    /// Component arrays (Structure of Arrays)
-    std::vector<TransformComponent> mTransforms;
-    std::vector<PhysicsPropertiesComponent> mPhysicsProperties;
-    std::vector<ModeComponent> mModes;
+    template <std::size_t... Is>
+    void addComponentsToTuple(std::index_sequence<Is...>, Components&&... comps) {
+        (std::get<Is>(componentArrays).push_back(std::forward<Components>(comps)), ...);
+    }
 };
+
+// Partial specialization for getComponentArray
+// (Implementation would go in .cpp or be defined here with more metaprogramming)
 
 } // namespace ecs

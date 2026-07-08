@@ -1,17 +1,15 @@
 # Phase 0 Status - ECS Foundation
 
 **Branch:** `ecs/phase-0-foundation`
-**Author:** sfwhite (https://github.com/sfwhite)
 
-All new ECS code and modifications on this branch are by sfwhite.
+## Major Update
 
-## Files
+Following feedback, `ArchetypeStorage` is being redesigned as a **variadic template** to support generics from the beginning, rather than hardcoding specific components.
 
-All files under `src/ecs/` use the following header:
+This aligns with the goal of avoiding major refactors later.
 
-```cpp
-// Copyright © 2026 sfwhite
-// https://github.com/sfwhite
-```
+Current approach:
+- `ArchetypeStorage<Components...>` uses `std::tuple<std::vector<Components>...>` for SoA storage.
+- `World` will manage different template instantiations of `ArchetypeStorage`.
 
-See individual files for full documentation.
+Note: Full generic component access (`getComponent<T>()`) will require additional metaprogramming, which will be added incrementally.

@@ -6,17 +6,7 @@
 
 namespace ecs {
 
-ArchetypeStorage::ArchetypeStorage(const Archetype& archetype)
-    : mArchetype(archetype) {}
-
-void ArchetypeStorage::AddEntity(uint64_t entity,
-                                   const TransformComponent& transform,
-                                   const PhysicsPropertiesComponent& physics,
-                                   const ModeComponent& mode) {
-    mEntities.push_back(entity);
-    mTransforms.push_back(transform);
-    mPhysicsProperties.push_back(physics);
-    mModes.push_back(mode);
-}
+// Note: Full generic implementation of getComponentArray<T>() requires more template metaprogramming.
+// For Phase 0 we will keep the storage definition here and expand accessors as needed.
 
 } // namespace ecs
