@@ -4,6 +4,6 @@
 
 ## Update: Consistent Per-Field Sourcing
 
-Improved sourcing comments across the entire `Components.h` file to match the level of detail used in `TransformComponent`.
+Made sourcing comments fully consistent across the entire file. Every field now has an explicit `// From ...` comment, matching the quality of `TransformComponent`.
 
-Every field now has an explicit comment indicating its origin in the original Destiny code (primarily from `Ball.h`, `ProximitySensor`, Mini* shapes, and spatial partitioning structures).
+All components are now properly sourced from the original Destiny code.

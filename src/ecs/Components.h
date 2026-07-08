@@ -16,13 +16,13 @@ namespace ecs {
 // ============================================================================
 
 struct TransformComponent {
-    // Current frame state
+    // Current frame
     Vector3d position;             // From Ball::mNewPos
     Vector3d velocity;             // From Ball::mNewVel
     Quaternion rotation;           // From Ball::mNewRot
     Vector3d angularVelocity;      // From Ball::mNewAngVel
 
-    // Previous frame state (used for integration and interpolation)
+    // Previous frame (for integration / interpolation)
     Vector3d oldPosition;          // From Ball::mOldPos
     Vector3d oldVelocity;          // From Ball::mOldVel
     Quaternion oldRotation;        // From Ball::mOldRot
@@ -35,20 +35,20 @@ struct TransformComponent {
 // ============================================================================
 
 struct KinematicComponent {
-    double mass = 0.0;               // From Ball physics parameters
-    float agility = 0.0f;            // From Ball physics parameters
-    float maxVelocity = 0.0f;        // From Ball physics parameters
-    float maxAngularVelocity = 0.0f; // From Ball physics parameters
-    float rollAgility = 0.0f;        // From Ball physics parameters
+    double mass = 0.0;               // From Ball physics parameters (mass)
+    float agility = 0.0f;            // From Ball physics parameters (agility)
+    float maxVelocity = 0.0f;        // From Ball physics parameters (maxVelocity)
+    float maxAngularVelocity = 0.0f; // From Ball physics parameters (maxAngularVelocity)
+    float rollAgility = 0.0f;        // From Ball physics parameters (rollAgility)
 };
 
 // ============================================================================
 // COLLIDABLE
-// Source: Ball collision data + radius (and compound Mini* shapes)
+// Source: Ball collision participation + radius + Mini* shapes
 // ============================================================================
 
 struct CollidableComponent {
-    float radius = 0.0f;             // From Ball radius and Mini* collision data
+    float radius = 0.0f;             // From Ball radius and compound Mini* collision data
 };
 
 // ============================================================================
@@ -57,18 +57,18 @@ struct CollidableComponent {
 // ============================================================================
 
 struct SphereComponent {
-    Vector3d localPosition;          // Local offset from parent (from MiniBall data)
-    float radius = 0.0f;             // Radius of the sphere (from MiniBall)
+    Vector3d localPosition;          // Local offset from parent entity (MiniBall data)
+    float radius = 0.0f;             // Radius of the spherical primitive (MiniBall)
 };
 
 struct BoxComponent {
-    Vector3d localPosition;          // Local offset from parent (from MiniBox data)
-    Vector3d halfExtents;            // Half extents of the box (from MiniBox)
-    Quaternion orientation;          // Orientation of the box
+    Vector3d localPosition;          // Local offset from parent entity (MiniBox data)
+    Vector3d halfExtents;            // Half-extents of the box (MiniBox data)
+    Quaternion orientation;          // Orientation of the box primitive
 };
 
 struct CapsuleComponent {
-    Vector3d localPosition;          // Local offset from parent (from MiniCapsule data)
+    Vector3d localPosition;          // Local offset from parent entity (MiniCapsule data)
     Vector3d axis;                   // Direction of the capsule axis
     float radius = 0.0f;             // Radius of the capsule
     float halfLength = 0.0f;         // Half-length of the capsule
@@ -76,7 +76,7 @@ struct CapsuleComponent {
 
 // ============================================================================
 // BEHAVIORAL MODE
-// Source: Ball.h - mMode (DSTBALLMODE) and associated mode data
+// Source: Ball.h - mMode (DSTBALLMODE) and mode-specific data
 // ============================================================================
 
 enum class BallMode : uint8_t {
@@ -101,16 +101,16 @@ enum class BallMode : uint8_t {
 struct BallModeComponent {
     BallMode mode = BallMode::Stop;  // From Ball::mMode (DSTBALLMODE)
 
-    // Mode-specific parameters (from various Ball mode data structures)
-    Vector3d targetPosition;         // Target position used by Goto/Approach/Warp modes
-    uint64_t targetEntity = 0;       // Target entity used by Follow/Orbit modes
-    float orbitRadius = 0.0f;        // Orbit radius (from Orbit mode)
-    float orbitSpeed = 0.0f;         // Orbit speed (from Orbit mode)
+    // Mode-specific parameters
+    Vector3d targetPosition;         // Target position (Goto / Approach / Warp modes)
+    uint64_t targetEntity = 0;       // Target entity (Follow / Orbit modes)
+    float orbitRadius = 0.0f;        // Orbit radius (Orbit mode)
+    float orbitSpeed = 0.0f;         // Orbit speed (Orbit mode)
 };
 
 // ============================================================================
 // PROXIMITY SENSOR
-// Source: Ball.h - ProximitySensor struct (stored in mSensor)
+// Source: Ball.h - ProximitySensor struct (mSensor)
 // ============================================================================
 
 struct ProximityComponent {
@@ -139,8 +139,8 @@ struct OwnershipComponent {
 
 struct FormationComponent {
     uint64_t formationLeader = 0;    // Formation leader entity ID
-    uint32_t formationSlot = 0;      // Slot index within the formation
-    bool inFormation = false;        // Whether the entity is currently in formation
+    uint32_t formationSlot = 0;      // Slot index in formation
+    bool inFormation = false;        // Whether currently in formation
 };
 
 // ============================================================================
@@ -175,26 +175,26 @@ struct SpatialPartitionComponent {
 
 // ============================================================================
 // BUBBLE (Spatial Interest Region)
-// Source: Destiny spatial partitioning and interest management system
+// Source: Destiny spatial partitioning and interest management bubbles
 // ============================================================================
 
 struct BubbleComponent {
-    Vector3d center;                 // Center position of the bubble
+    Vector3d center;                 // Center of the bubble region
     float radius = 0.0f;             // Radius of the bubble
-    uint32_t gridLevel = 0;          // Hierarchical grid level this bubble belongs to
-    uint32_t bubbleId = 0;           // Unique identifier for this bubble
-    bool active = true;              // Whether the bubble is currently active
+    uint32_t gridLevel = 0;          // Hierarchical grid level
+    uint32_t bubbleId = 0;           // Unique bubble identifier
+    bool active = true;              // Whether bubble is active
 };
 
 // ============================================================================
 // WRECK / DEBRIS
-// Source: Wreck and debris entities managed inside Ballpark
+// Source: Wreck and debris entities managed by Ballpark
 // ============================================================================
 
 struct WreckComponent {
-    uint32_t wreckType = 0;          // Type/category of the wreck
+    uint32_t wreckType = 0;          // Type of wreck
     double decayTimer = 0.0;         // Decay / lifetime timer
-    bool hasLoot = false;            // Whether the wreck contains loot
+    bool hasLoot = false;            // Whether wreck has loot
 };
 
 } // namespace ecs
