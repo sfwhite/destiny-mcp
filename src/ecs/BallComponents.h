@@ -62,15 +62,15 @@ struct CollidableComponent {
 };
 
 // ============================================================================
-// Behavioral Mode (from DSTBALLMODE)
+// Behavioral Mode (complete list from DSTBALLMODE)
 // ============================================================================
 
 /**
- * @brief Behavioral modes corresponding to DSTBALLMODE constants.
- * This enum should eventually match or map to the original DSTBALLMODE values.
+ * @brief Complete set of behavioral modes from the original DSTBALLMODE constants.
+ * This enum should be kept in sync with the original DSTBALLMODE definition.
  */
 enum class BallMode : uint8_t {
-    Stop         = 0,
+    Stop      = 0,
     Goto,
     Follow,
     Orbit,
@@ -79,7 +79,14 @@ enum class BallMode : uint8_t {
     Approach,
     Flee,
     Stopped,
-    // Add any additional modes from DSTBALLMODE as they are identified
+    Boost,
+    Hold,
+    Warping,
+    Milling,
+    Evade,
+    Dock,
+    Undock,
+    // Additional modes from DSTBALLMODE should be added here as identified
 };
 
 /**

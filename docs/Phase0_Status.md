@@ -2,12 +2,8 @@
 
 **Branch:** `ecs/phase-0-foundation`
 
-## Update: BallMode Enum Expanded
+## Update: Full BallMode Enum
 
-Expanded the `BallMode` enum in `BallComponents.h` to include more modes from the original `DSTBALLMODE` constants:
+Expanded `BallMode` to a more complete set matching the original `DSTBALLMODE` constants (Stop, Goto, Follow, Orbit, Missile, Warp, Approach, Flee, Stopped, Boost, Hold, Warping, Milling, Evade, Dock, Undock).
 
-- Stop, Goto, Follow, Orbit, Missile, Warp, Approach, Flee, Stopped
-
-This makes the behavioral state component more complete for testing purposes.
-
-The component decomposition is now in a cleaner state for isolated ECS testing.
+The enum now includes the major modes used in the Destiny simulation.
