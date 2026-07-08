@@ -2,26 +2,19 @@
 
 **Branch:** `ecs/phase-0-foundation`
 
-## Major Update: Comprehensive Ball Data Decomposition
+## Update: Refined Ball Component Decomposition
 
-Created `src/ecs/BallComponents.h` containing a broad set of data components extracted from the original `Ball` class.
+Updated `BallComponents.h` based on feedback:
 
-This allows the new ECS side to be tested in isolation with realistic data structures.
+- Removed `CompoundShapeComponent` (deferred — drones are generally non-collidable).
+- Split physics data into:
+  - `KinematicComponent` (mass, agility, max velocities — movement simulation parameters)
+  - `CollidableComponent` (radius / bounding volume — collision participation)
+- Removed boolean flags (`isFixed`, `isCollidable`, `isMassive`) in favor of component presence.
+- Kept other components (`TransformComponent`, `BallModeComponent`, `ProximityComponent`, etc.).
 
-Components created:
-- TransformComponent
-- PhysicsPropertiesComponent
-- BallModeComponent
-- CompoundShapeComponent
-- ProximityComponent
-- OwnershipComponent
-- FormationComponent
-- CloakComponent
-- HarmonicsComponent
-- SpatialPartitionComponent
+This decomposition is now more idiomatic ECS and better suited for efficient system iteration.
 
-These are pure data structs. Mutation logic will be moved into Systems in later steps.
+## Current Goal
 
-## Goal
-
-Enable standalone testing of the ECS boilerplate (`World`, `ArchetypeStorage`, `SimulationCore`, etc.) using realistic component data before any integration with the legacy `Ball` / `Ballpark` code.
+Enable clean, isolated testing of the ECS foundation using realistic component data from Ball.

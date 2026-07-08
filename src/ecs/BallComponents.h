@@ -6,18 +6,17 @@
 
 #include "Vector3d.h"
 #include "Quaternion.h"
-#include <vector>
 #include <cstdint>
 
 namespace ecs {
 
 // ============================================================================
-// Core Motion / Transform Data
+// Transform / Motion State
 // ============================================================================
 
 /**
- * @brief Position, velocity, rotation and angular velocity (current + previous frame).
- * This is the core 6DOF state used for integration and interpolation.
+ * @brief Core 6DOF spatial and motion state.
+ * Contains current and previous frame values for integration and interpolation.
  */
 struct TransformComponent {
     Vector3d position;
@@ -32,22 +31,34 @@ struct TransformComponent {
 };
 
 // ============================================================================
-// Physics Properties
+// Kinematic (Movement Physics)
 // ============================================================================
 
 /**
- * @brief Physical properties that govern movement and collision response.
+ * @brief Physics parameters for entities that participate in movement simulation.
+ * Presence of this component implies the entity is kinematic (can move via physics).
+ * Mass and agility-related attributes live here.
  */
-struct PhysicsPropertiesComponent {
+struct KinematicComponent {
     double mass = 0.0;
-    float radius = 0.0f;
     float agility = 0.0f;
     float maxVelocity = 0.0f;
     float maxAngularVelocity = 0.0f;
     float rollAgility = 0.0f;
-    bool isMassive = false;
-    bool isFixed = false;
-    bool isCollidable = true;
+};
+
+// ============================================================================
+// Collidable (Collision Participation)
+// ============================================================================
+
+/**
+ * @brief Collision-relevant data.
+ * Presence of this component means the entity participates in collision detection.
+ * Bounding volume data lives here.
+ */
+struct CollidableComponent {
+    float radius = 0.0f;
+    // Future: collision layer/mask, shape type, etc.
 };
 
 // ============================================================================
@@ -60,16 +71,16 @@ enum class BallMode : uint8_t {
     Follow,
     Orbit,
     Missile,
-    // Add other modes from DSTBALLMODE as needed
+    // Extend as needed from DSTBALLMODE
 };
 
 /**
- * @brief Current behavioral mode and mode-specific parameters.
+ * @brief Current behavioral mode and associated parameters.
  */
 struct BallModeComponent {
     BallMode mode = BallMode::Stop;
 
-    // Mode-specific data (can be expanded or split into separate components later)
+    // Mode-specific targeting / orbit data
     Vector3d targetPosition;
     uint64_t targetEntity = 0;
     float orbitRadius = 0.0f;
@@ -77,25 +88,11 @@ struct BallModeComponent {
 };
 
 // ============================================================================
-// Compound Collision Shapes (Mini* primitives)
+// Proximity Sensor
 // ============================================================================
 
 /**
- * @brief Lightweight collision primitives attached to a Ball (drones, missiles, etc.).
- */
-struct CompoundShapeComponent {
-    // For Phase 0 we store counts. Full Mini* data can be added later.
-    uint32_t miniBallCount = 0;
-    uint32_t miniBoxCount = 0;
-    uint32_t miniCapsuleCount = 0;
-};
-
-// ============================================================================
-// Proximity / Sensor Data
-// ============================================================================
-
-/**
- * @brief Proximity sensor configuration and state.
+ * @brief Proximity sensor configuration and runtime state.
  */
 struct ProximityComponent {
     float range = 0.0f;
@@ -123,7 +120,7 @@ struct OwnershipComponent {
 // ============================================================================
 
 /**
- * @brief Formation membership and slot information.
+ * @brief Formation membership and slot assignment.
  */
 struct FormationComponent {
     uint64_t formationLeader = 0;
@@ -132,11 +129,11 @@ struct FormationComponent {
 };
 
 // ============================================================================
-// Cloaking & Harmonics
+// Cloaking
 // ============================================================================
 
 /**
- * @brief Cloaking state.
+ * @brief Cloaking state and timers.
  */
 struct CloakComponent {
     bool isCloaked = false;
@@ -144,8 +141,12 @@ struct CloakComponent {
     double cloakTimer = 0.0;
 };
 
+// ============================================================================
+// Harmonics / Effects
+// ============================================================================
+
 /**
- * @brief Harmonics / special effect state.
+ * @brief Harmonics and special effect state.
  */
 struct HarmonicsComponent {
     uint32_t harmonicState = 0;
@@ -153,16 +154,15 @@ struct HarmonicsComponent {
 };
 
 // ============================================================================
-// Spatial Partitioning Data (for the grid system)
+// Spatial Partitioning
 // ============================================================================
 
 /**
- * @brief Data related to the hierarchical grid / partition system.
+ * @brief Data related to the hierarchical grid / spatial partition system.
  */
 struct SpatialPartitionComponent {
-    // Placeholder for active partition boxes or grid cell info.
-    // Can be expanded when the data-oriented Partition system is implemented.
     uint32_t activeBoxCount = 0;
+    // Can be expanded when a data-oriented Partition system is implemented.
 };
 
 } // namespace ecs
