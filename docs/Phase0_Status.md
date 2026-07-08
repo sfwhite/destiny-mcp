@@ -2,10 +2,8 @@
 
 **Branch:** `ecs/phase-0-foundation`
 
-## Cleanup: Strict Sourcing Applied
+## Update: Consistent Per-Field Sourcing
 
-`Components.h` has been cleaned up to only contain fields that exist in the original Destiny code.
+Improved sourcing comments across the entire `Components.h` file to match the level of detail used in `TransformComponent`.
 
-Every attribute now has an explicit comment showing its source (primarily from `Ball.h`, `ProximitySensor`, Mini* shapes, spatial partitioning, and related Ballpark structures).
-
-Invented or generalized attributes have been removed.
+Every field now has an explicit comment indicating its origin in the original Destiny code (primarily from `Ball.h`, `ProximitySensor`, Mini* shapes, and spatial partitioning structures).
