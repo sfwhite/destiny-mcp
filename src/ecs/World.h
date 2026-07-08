@@ -6,6 +6,7 @@
 
 #include "EntityManager.h"
 #include "ArchetypeStorage.h"
+#include "Components.h"
 #include <unordered_map>
 #include <memory>
 
@@ -23,9 +24,9 @@ public:
 
     uint64_t CreateEntity();
 
-    void AddTransform(uint64_t entity, const TransformComponent& component);
-    void AddPhysicsProperties(uint64_t entity, const PhysicsPropertiesComponent& component);
-    void AddMode(uint64_t entity, const ModeComponent& component);
+    void AddKinematic(uint64_t entity, const KinematicComponent& component);
+    void AddCollidable(uint64_t entity, const CollidableComponent& component);
+    void AddBallMode(uint64_t entity, const BallModeComponent& component);
 
     /**
      * @brief Moves an entity from its current archetype to a new one.
